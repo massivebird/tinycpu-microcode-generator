@@ -1,7 +1,9 @@
+use std::fmt::Write;
+
 use microcode::{tinycpu_microcode, Signal::*};
 
 fn main() {
-    let microcode = vec![
+    let steps = vec![
         // 000 add
         vec![
             vec![PcE, MarC],
@@ -10,6 +12,7 @@ fn main() {
             vec![IrE, MarC],
             vec![MemE, MbrC],
             vec![AluC, AluE],
+            vec![AluE, D0C],
             vec![Reset],
         ],
         // 001 and
@@ -20,6 +23,7 @@ fn main() {
             vec![IrE, MarC],
             vec![MemE, MbrC],
             vec![AluC, AluE],
+            vec![AluE, D0C],
             vec![Reset],
         ],
         // 010 shr
@@ -30,6 +34,7 @@ fn main() {
             vec![IrE, MarC],
             vec![MemE, MbrC],
             vec![AluC, AluE],
+            vec![AluE, MemC],
             vec![Reset],
         ],
         // 011 disp
@@ -56,7 +61,7 @@ fn main() {
             vec![MemE, IrC, PcInc],
             vec![PcInc, PcC],
             vec![IrE, MarC],
-            vec![D0E, MemC],
+            vec![MemC, D0E],
             vec![Reset],
         ],
         // 110 jmp
@@ -64,6 +69,7 @@ fn main() {
             vec![PcE, MarC],
             vec![MemE, IrC, PcInc],
             vec![PcInc, PcC],
+            vec![IrE],
             vec![IrE, PcC],
             vec![Reset],
         ],
@@ -72,10 +78,19 @@ fn main() {
             vec![PcE, MarC],
             vec![MemE, IrC, PcInc],
             vec![PcInc, PcC],
-            vec![IrE, PcC, Z],
+            vec![IrE],
+            vec![IrE, Z],
             vec![Reset],
         ],
     ];
 
-    println!("{:?}", tinycpu_microcode(microcode));
+    let mut s = String::new();
+
+    writeln!(&mut s, "v2.0 raw").unwrap();
+
+    for code in tinycpu_microcode(steps) {
+        write!(&mut s, "{code:x} ").unwrap()
+    }
+
+    print!("{s}");
 }

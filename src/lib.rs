@@ -62,7 +62,7 @@ pub fn tinycpu_microcode(insts: Vec<Vec<Vec<Signal>>>) -> [u16; 64] {
     for (opcode, microsteps) in insts.iter().enumerate() {
         for (step_num, signals) in microsteps.iter().enumerate() {
             let code = generate_microstep_code(signals);
-            microcode[step_num + (step_num * opcode)] = code;
+            microcode[opcode + (8 * step_num)] = code;
         }
     }
 
@@ -89,6 +89,10 @@ mod tests {
         assert_eq!(
             generate_microstep_code(&[Signal::AluC, Signal::AluE]),
             0x3000
+        );
+        assert_eq!(
+            generate_microstep_code(&[Signal::IrE, Signal::MarC]),
+            0x0082
         );
     }
 }
