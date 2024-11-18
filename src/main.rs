@@ -1,6 +1,5 @@
-use std::fmt::Write;
-
 use microcode::{tinycpu_microcode, Signal::*};
+use std::fmt::Write;
 
 fn main() {
     let steps = vec![
