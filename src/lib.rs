@@ -38,31 +38,30 @@ impl From<Signal> for u16 {
             Signal::AluC => 0x1000,
             Signal::AluE => 0x2000,
             Signal::Reset => 0x4000,
-            Signal::BcdC => 0x8000
+            Signal::BcdC => 0x8000,
         }
     }
 }
 
-/// Generate the code for a microstep triggering one or more signals.
+/// Generates the code for a microstep triggering one or more signals.
 fn generate_microstep_code(signals: &[Signal]) -> u16 {
     let mut code = 0;
 
-    for signal in signals.iter() {
-        code |= u16::from(*signal)
+    for signal in signals {
+        code |= u16::from(*signal);
     }
 
     code
 }
 
-pub fn tinycpu_microcode(insts: Vec<Vec<Vec<Signal>>>) -> [u16; 64] {
+pub fn tinycpu_microcode(insts: &[Vec<Vec<Signal>>]) -> [u16; 64] {
     assert_eq!(insts.len(), 8, "Expected seven (7) instructions.");
 
     let mut microcode = [0u16; 64];
 
     for (opcode, microsteps) in insts.iter().enumerate() {
         for (step_num, signals) in microsteps.iter().enumerate() {
-            let code = generate_microstep_code(signals);
-            microcode[opcode + (8 * step_num)] = code;
+            microcode[opcode + (8 * step_num)] = generate_microstep_code(signals);
         }
     }
 

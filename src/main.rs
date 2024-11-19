@@ -87,8 +87,8 @@ fn main() {
 
     writeln!(&mut s, "v2.0 raw").unwrap();
 
-    for code in tinycpu_microcode(steps) {
-        write!(&mut s, "{code:x} ").unwrap()
+    for code in tinycpu_microcode(&steps) {
+        write!(&mut s, "{code:x} ").unwrap();
     }
 
     print!("{s}");
