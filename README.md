@@ -9,8 +9,8 @@ To manually build the project, you must first [install Rust](https://www.rust-la
 Once you have Rust installed, run the following commands:
 
 ```bash
-git clone https://github.com/massivebird/arcsearch
-cd arcsearch
+git clone https://github.com/massivebird/tinycpu-microcode-generator
+cd tinycpu-microcode-generator
 cargo run # runs unoptimized build
 ```
 
