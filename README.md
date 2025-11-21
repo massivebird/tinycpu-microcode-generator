@@ -13,3 +13,7 @@ git clone https://github.com/massivebird/arcsearch
 cd arcsearch
 cargo run # runs unoptimized build
 ```
+
+## Usage
+
+Edit `main.rs`. Sorry not sorry. User interface coming never. lmao
